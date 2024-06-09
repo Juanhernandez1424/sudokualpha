@@ -19,7 +19,6 @@ public class Sudoku {
         sudoku = sudo;
     }
     
-    
     // Método booleano para resolver el sudoku una vez cargadas las letras
     public boolean resolverSudoku() {
         // Ciclo para recoger las filas
