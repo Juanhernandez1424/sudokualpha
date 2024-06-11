@@ -1,10 +1,24 @@
+/* 
+*Paquete Modelo, con la clase contenida Sudoku
+*/
 package modelo;
 
-public class Sudoku {
-
+/*
+*Clase Sudoku del paquete modelo, la cual contiene el código de la parte lódiga de juego
+*/
+public class Sudoku { 
+    
+    /*
+    *Método privado llamado Sudoku de tipo char el cuál tendrá dos arreglos, uno para las filas y otro para las columnas
+    */
     private char sudoku[][];
-
+    
+    /*
+    * Médoto público llamado Sudoku, el cuál contendrá todo el código lógico de resolverSudoku(), validarCuadradro(), cuadradoActual(),
+    * validarFila(), validarColumna() y mostrarSudoku()
+    */
     public Sudoku() {
+        // Declaración del arreglo de 9x9
         char sudo[][] = {
             {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
             {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
@@ -16,6 +30,8 @@ public class Sudoku {
             {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
             {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '}
         };
+        
+        // A la variable sudoku, se le asigna el valor de sudo, ya que en este se declara el tamano del arreglo y el juego
         sudoku = sudo;
     }
     
@@ -48,17 +64,25 @@ public class Sudoku {
         return true;
     }
 
-    public boolean validarCuadrado(int i, int j, int letra) {
+   // Método booleano para validar el cuadrado de 3x3
+    public boolean validarCuadrado(int i, int j, char letra) {
+        // Obtiene la posición inicial de la fila del cuadrado
         int posI = cuadradoActual(i);
+        // Obtiene la posición inicial de la columna del cuadrado
         int posJ = cuadradoActual(j);
 
+        // Ciclo que recorre las filas del cuadrado actual 
         for (int k = posI - 3; k < posI; k++) {
+            // Ciclo que recorre las filas del cuadrado actual 
             for (int l = posJ - 3; l < posJ; l++) {
+                // Condicional que verifica si la letra ya existe en el cuadrado
                 if (sudoku[k][l] == letra) {
+                    // Retorna falso si la letra ya existe en el cuadrado
                     return false;
                 }
             }
         }
+        // Retorna verdadero si la letra no existe en el cuadrado
         return true;
     }
 
@@ -102,11 +126,17 @@ public class Sudoku {
             System.out.println();
         }
     }
-
+    
+    /*
+    * Métodos Getter and Setter de la método privado llamado Sudoku
+    */
+    
+    // Getter
     public char[][] getSudoku() {
         return sudoku;
     }
-
+    
+    // Setter
     public void setSudoku(char[][] sudoku) {
         this.sudoku = sudoku;
     }
