@@ -37,7 +37,7 @@ public class Sudoku {
     
     // Método booleano para resolver el sudoku una vez cargadas las letras
     public boolean resolverSudoku() {
-        // Ciclo para recoger las filas
+        // Ciclo para recorrer las filas
         for (int i = 0; i < sudoku.length; i++) {
             // Ciclo para recorrer las columnas
             for (int j = 0; j < sudoku[0].length; j++) {
@@ -87,42 +87,64 @@ public class Sudoku {
     }
 
     public int cuadradoActual(int pos) {
+        // Comprueba si la posición es menor o igual a 2
         if (pos <=2) {
+            // Retorna 3 si la posición es menor o igual a 2
             return 3;
+        // Comprueba si la posición es menor o igual a 5
         } else if (pos <= 5) {
+            // Retorna 6 si la posición es menor o igual a 5
             return 6;
         } else {
+            // Retorna 9 si la posición es mayor que 5
             return 9;
         }
     }
-
+    //Metodo booleano valida si una letra dada está presente en la fila especificada de un sudoku.
     public boolean validarFila(int i, char letra) {
+        // Ciclo que recorre sobre cada columna en la fila especificada.
         for (int j = 0; j < sudoku[i].length; j++) {
+             // Comprueba si la letra dada está presente en la posición actual de la fila.
             if (sudoku[i][j] == letra) {
+                // Retorna false si la letra está presente en la fila.
                 return false;
             }
         }
+        // Retorna true si la letra no está presente en la fila.
         return true;
     }
-
+    //Metodo booleano que valida si una letra dada está presente en la columna especificada de un sudoku.
     public boolean validarColumna(int j,char letra) {
+        // Ciclo que recorre sobre cada fila en la columna especificada.
         for (int i = 0; i < sudoku.length; i++) {
+            // Comprueba si la letra dada está presente en la posición actual de la columna.
             if (sudoku[i][j] == letra) {
+                // Retorna false si la letra está presente en la columna.
                 return false;
             }
         }
+        // Retorna true si la letra no está presente en la columna.
         return true;
     }
-
+    /**
+ * Muestra el sudoku resuelto en la consola.
+ * Nota: este método asume que el sudoku ya ha sido resuelto antes de llamarlo.
+ */
     public void mostrarSudoku() {
+        // Resuelve el sudoku antes de mostrarlo.
         resolverSudoku();
+        // Ciclo que recorre sobre cada fila del sudoku.
         for (int i = 0; i < sudoku.length; i++) {
+            // Ciclo que recorre sobre cada columna de la fila actual.
             for (int j = 0; j < sudoku[0].length; j++) {
+                // Imprime el valor de la celda en la posición actual.
                 System.out.print(sudoku[i][j]);
+                // Agrega un guion si no es la última columna de la fila.
                 if (!(j == sudoku[0].length - 1)) {
                     System.out.print(" - ");
                 }
             }
+            // Salta a una nueva línea después de imprimir cada fila.
             System.out.println();
         }
     }
