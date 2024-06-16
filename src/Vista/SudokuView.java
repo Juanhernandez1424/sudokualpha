@@ -4,7 +4,10 @@
  */
 package Vista;
 
-import javax.swing.JFrame;
+import java.awt.*;
+import javax.swing.*;
+import javax.swing.text.*;
+import javax.swing.border.*;
 
 /**
  *
