@@ -1,40 +1,38 @@
 /* 
 *Paquete Modelo, con la clase contenida Sudoku
-*/
+ */
 package modelo;
+
+import java.util.Random;
+import javax.swing.JTextField;
 
 /*
 *Clase Sudoku del paquete modelo, la cual contiene el código de la parte lódiga de juego
-*/
-public class Sudoku { 
-    
+ */
+public class Sudoku {
+
     /*
     *Método privado llamado Sudoku de tipo char el cuál tendrá dos arreglos, uno para las filas y otro para las columnas
-    */
+     */
     private char sudoku[][];
-    
+
     /*
     * Médoto público llamado Sudoku, el cuál contendrá todo el código lógico de resolverSudoku(), validarCuadradro(), cuadradoActual(),
     * validarFila(), validarColumna() y mostrarSudoku()
-    */
+     */
     public Sudoku() {
-        // Declaración del arreglo de 9x9
-        char sudo[][] = {
-            {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-            {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-            {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-            {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-            {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-            {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-            {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-            {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-            {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '}
-        };
-        
-        // A la variable sudoku, se le asigna el valor de sudo, ya que en este se declara el tamano del arreglo y el juego
-        sudoku = sudo;
+        sudoku = new char[9][9];
+        limpiarSudoku();
     }
-    
+
+    public void limpiarSudoku() {
+        for (int i = 0; i < sudoku.length; i++) {
+            for (int j = 0; j < sudoku[0].length; j++) {
+                sudoku[i][j] = ' ';
+            }
+        }
+    }
+
     // Método booleano para resolver el sudoku una vez cargadas las letras
     public boolean resolverSudoku() {
         // Ciclo para recorrer las filas
@@ -48,7 +46,7 @@ public class Sudoku {
                         // Condición para validar que la letra no se repita en la fila, columna y cuadrado y así se pueda ingresar la letra
                         if (validarFila(i, letra) && validarColumna(j, letra) && validarCuadrado(i, j, letra)) {
                             sudoku[i][j] = letra;
-                            
+
                             //Se manda a llamar el método recursivo para que no haya valores que no correspondan dentro de las filas y columnas o se muestren espacios en blanco cuando no hay solución
                             if (resolverSudoku()) {
                                 return true;
@@ -64,7 +62,7 @@ public class Sudoku {
         return true;
     }
 
-   // Método booleano para validar el cuadrado de 3x3
+    // Método booleano para validar el cuadrado de 3x3
     public boolean validarCuadrado(int i, int j, char letra) {
         // Obtiene la posición inicial de la fila del cuadrado
         int posI = cuadradoActual(i);
@@ -88,10 +86,10 @@ public class Sudoku {
 
     public int cuadradoActual(int pos) {
         // Comprueba si la posición es menor o igual a 2
-        if (pos <=2) {
+        if (pos <= 2) {
             // Retorna 3 si la posición es menor o igual a 2
             return 3;
-        // Comprueba si la posición es menor o igual a 5
+            // Comprueba si la posición es menor o igual a 5
         } else if (pos <= 5) {
             // Retorna 6 si la posición es menor o igual a 5
             return 6;
@@ -100,11 +98,12 @@ public class Sudoku {
             return 9;
         }
     }
+
     //Metodo booleano valida si una letra dada está presente en la fila especificada de un sudoku.
     public boolean validarFila(int i, char letra) {
         // Ciclo que recorre sobre cada columna en la fila especificada.
         for (int j = 0; j < sudoku[i].length; j++) {
-             // Comprueba si la letra dada está presente en la posición actual de la fila.
+            // Comprueba si la letra dada está presente en la posición actual de la fila.
             if (sudoku[i][j] == letra) {
                 // Retorna false si la letra está presente en la fila.
                 return false;
@@ -113,8 +112,9 @@ public class Sudoku {
         // Retorna true si la letra no está presente en la fila.
         return true;
     }
+
     //Metodo booleano que valida si una letra dada está presente en la columna especificada de un sudoku.
-    public boolean validarColumna(int j,char letra) {
+    public boolean validarColumna(int j, char letra) {
         // Ciclo que recorre sobre cada fila en la columna especificada.
         for (int i = 0; i < sudoku.length; i++) {
             // Comprueba si la letra dada está presente en la posición actual de la columna.
@@ -126,10 +126,11 @@ public class Sudoku {
         // Retorna true si la letra no está presente en la columna.
         return true;
     }
+
     /**
- * Muestra el sudoku resuelto en la consola.
- * Nota: este método asume que el sudoku ya ha sido resuelto antes de llamarlo.
- */
+     * Muestra el sudoku resuelto en la consola. Nota: este método asume que el
+     * sudoku ya ha sido resuelto antes de llamarlo.
+     */
     public void mostrarSudoku() {
         // Resuelve el sudoku antes de mostrarlo.
         resolverSudoku();
@@ -148,16 +149,84 @@ public class Sudoku {
             System.out.println();
         }
     }
+
+    public void generarSudoku(int nivel) {
+        limpiarSudoku();
+        Random random = new Random();
+
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                char letra = (char) ('A' + random.nextInt(9));
+                if (validarCuadrado(i, j, letra)) {
+                    sudoku[i][j] = letra;
+                } else {
+                    j--;
+                }
+            }
+        }
+
+        for (int i = 3; i < 6; i++) {
+            for (int j = 3; j < 6; j++) {
+                char letra = (char) ('A' + random.nextInt(9));
+                if (validarCuadrado(i, j, letra)) {
+                    sudoku[i][j] = letra;
+                } else {
+                    j--;
+                }
+            }
+        }
+
+        for (int i = 6; i < 9; i++) {
+            for (int j = 6; j < 9; j++) {
+                char letra = (char) ('A' + random.nextInt(9));
+                if (validarCuadrado(i, j, letra)) {
+                    sudoku[i][j] = letra;
+                } else {
+                    j--;
+                }
+            }
+        }
+
+        resolverSudoku();
+
+        for (int i = 0; i < sudoku.length; i++) {
+            for (int j = 0; j < sudoku[0].length; j++) {
+                int aux = j;
+                int rand = random.nextInt(nivel + 1);
+                j += rand;
+                for (int k = aux; k < j && k < sudoku.length; k++) {
+                    sudoku[i][k] = ' ';
+                }
+            }
+        }
+
+    }
     
+    public boolean comprobarSudoku(){
+        for (int i = 0; i < sudoku.length; i++) {
+            for (int j = 0; j < sudoku[0].length; j++) {
+                char aux = sudoku[i][j];
+                sudoku[i][j]= ' ';
+                if(!validarFila(i, aux) || validarColumna(j, aux) || validarCuadrado(i, j, aux)){
+                    sudoku[i][j]=aux;
+                    return false;
+                }
+                
+                sudoku[i][j]=aux;
+            }
+        }
+        
+        return true;
+    }
+
     /*
     * Métodos Getter and Setter de la método privado llamado Sudoku
-    */
-    
+     */
     // Getter
     public char[][] getSudoku() {
         return sudoku;
     }
-    
+
     // Setter
     public void setSudoku(char[][] sudoku) {
         this.sudoku = sudoku;
