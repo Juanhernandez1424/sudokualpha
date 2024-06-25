@@ -4,9 +4,8 @@ import java.awt.Color;
 
 public class FormSudoku extends javax.swing.JFrame {
     
-    private TableroSudoku tableroSudoku;
+    public static TableroSudoku tableroSudoku;
     private TableroLetras tableroLetras;
-    private FormNiveles formNiveles;
 
     public FormSudoku() {
         initComponents();
@@ -50,6 +49,8 @@ public class FormSudoku extends javax.swing.JFrame {
         tableroLetras.crearTablero();
         tableroLetras.setLocation(20,60);
         tableroLetras.setVisible(true);
+        
+        tableroSudoku.generarSudoku(2);
     }
 
     @SuppressWarnings("unchecked")
@@ -58,8 +59,6 @@ public class FormSudoku extends javax.swing.JFrame {
 
         panelFondo = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
@@ -78,35 +77,6 @@ public class FormSudoku extends javax.swing.JFrame {
         jLabel1.setText("SUDOKU");
         panelFondo.add(jLabel1);
         jLabel1.setBounds(20, 20, 150, 40);
-
-        jPanel2.setBackground(new java.awt.Color(226, 137, 6));
-        jPanel2.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-
-        jLabel2.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText(" NUEVA PARTIDA");
-        jLabel2.setToolTipText("");
-        jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                jLabel2MousePressed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-
-        panelFondo.add(jPanel2);
-        jPanel2.setBounds(490, 120, 160, 40);
 
         jPanel4.setBackground(new java.awt.Color(226, 137, 6));
 
@@ -131,7 +101,7 @@ public class FormSudoku extends javax.swing.JFrame {
         );
 
         panelFondo.add(jPanel4);
-        jPanel4.setBounds(490, 180, 160, 40);
+        jPanel4.setBounds(500, 150, 160, 40);
 
         jPanel3.setBackground(new java.awt.Color(226, 137, 6));
 
@@ -156,7 +126,7 @@ public class FormSudoku extends javax.swing.JFrame {
         );
 
         panelFondo.add(jPanel3);
-        jPanel3.setBounds(490, 240, 160, 40);
+        jPanel3.setBounds(500, 210, 160, 40);
 
         jPanel5.setBackground(new java.awt.Color(226, 137, 6));
 
@@ -181,7 +151,7 @@ public class FormSudoku extends javax.swing.JFrame {
         );
 
         panelFondo.add(jPanel5);
-        jPanel5.setBounds(490, 300, 160, 40);
+        jPanel5.setBounds(500, 270, 160, 40);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -197,15 +167,6 @@ public class FormSudoku extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jLabel2MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MousePressed
-        if (formNiveles != null) {
-            formNiveles.setVisible(true);
-        } else{
-            formNiveles = new FormNiveles(tableroSudoku);
-            formNiveles.setVisible(true);
-        }
-    }//GEN-LAST:event_jLabel2MousePressed
-
     private void jLabel3MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MousePressed
         tableroSudoku.limpiar();
     }//GEN-LAST:event_jLabel3MousePressed
@@ -218,21 +179,12 @@ public class FormSudoku extends javax.swing.JFrame {
         tableroSudoku.resolver();
     }//GEN-LAST:event_jLabel6MousePressed
 
-    public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new FormSudoku().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;

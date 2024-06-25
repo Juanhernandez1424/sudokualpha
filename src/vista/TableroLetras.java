@@ -19,9 +19,11 @@ public class TableroLetras extends JPanel {
     private Color txtForeground1;
     private Color txtBackground2;
     private Color txtForeground2;
+    private TableroSudoku tableroSudoku;
     
     public TableroLetras() {
         iniciarComponentes();
+        tableroSudoku = FormSudoku.tableroSudoku;
     }
     
     public void iniciarComponentes() {
@@ -40,13 +42,14 @@ public class TableroLetras extends JPanel {
         this.setLayout(null);
         this.setSize(txtAncho + (2 * txtMargen), txtAltura * 9 + (4 * txtMargen));
         this.setBackground(panelBackground);
+        crearCamposTxt();
     }
     
     public void crearCamposTxt(){
         int x = txtMargen;
         int y = txtMargen;
         
-        for (char i = 'A'; i < 'I'; i++) {
+        for (char i = 'A'; i <= 'I'; i++) {
             JTextField txt = new JTextField();
             this.add(txt);
             txt.setBounds(x,y,txtAncho,txtAltura);
@@ -55,10 +58,10 @@ public class TableroLetras extends JPanel {
             txt.setCursor(new Cursor(Cursor.HAND_CURSOR));
             txt.setEditable(false);
             txt.setBorder(BorderFactory.createLineBorder(panelBackground, 1));
-            txt.setText(String.valueOf(i+1));
+            txt.setText(String.valueOf(i));
             
             y+=txtAltura;
-            if ((i+1)%3==0) {
+            if ((i- 'A' +1)%3==0) {
                 y+=txtMargen;
             }
             generarEventosTxt(txt);
@@ -74,7 +77,11 @@ public class TableroLetras extends JPanel {
 
             @Override
             public void mousePressed(MouseEvent e) {
-
+                if (tableroSudoku.txtGenerado(tableroSudoku.txtSelected)) {
+                    return;
+                }
+                
+                tableroSudoku.txtSelected.setText(txt.getText());
             }
 
             @Override
@@ -168,6 +175,4 @@ public class TableroLetras extends JPanel {
     public void setTxtForeground2(Color txtForeground2) {
         this.txtForeground2 = txtForeground2;
     }
-    
-    
 }

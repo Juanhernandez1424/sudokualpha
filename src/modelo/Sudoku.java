@@ -207,7 +207,7 @@ public class Sudoku {
             for (int j = 0; j < sudoku[0].length; j++) {
                 char aux = sudoku[i][j];
                 sudoku[i][j]= ' ';
-                if(!validarFila(i, aux) || validarColumna(j, aux) || validarCuadrado(i, j, aux)){
+                if(!validarFila(i, aux) || !validarColumna(j, aux) || !validarCuadrado(i, j, aux)){
                     sudoku[i][j]=aux;
                     return false;
                 }

@@ -13,6 +13,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import modelo.Sudoku;
+import java.awt.Window;
+import javax.swing.SwingUtilities;
 
 public class TableroSudoku extends JPanel {
 
@@ -34,6 +36,7 @@ public class TableroSudoku extends JPanel {
     private Sudoku sudoku;
     private ArrayList<JTextField> listaTxtReinicio;
     private ArrayList<JTextField> listaTxtGenerados;
+    public JTextField txtSelected;
 
     public TableroSudoku() {
         iniciarComponentes();
@@ -57,6 +60,7 @@ public class TableroSudoku extends JPanel {
         sudoku = new Sudoku();
         listaTxtReinicio = new ArrayList<>();
         listaTxtGenerados = new ArrayList<>();
+        txtSelected = new JTextField();
     }
 
     public void crearSudoku() {
@@ -107,6 +111,7 @@ public class TableroSudoku extends JPanel {
             @Override
             public void mousePressed(MouseEvent e) {
                 pressed(txt);
+                txtSelected = txt;
             }
 
             @Override
@@ -136,10 +141,10 @@ public class TableroSudoku extends JPanel {
                 if (txtGenerado(txt)) {
                     return;
                 } else {
-                    if(e.getKeyChar()==KeyEvent.VK_BACK_SPACE){
+                    if (e.getKeyChar() == KeyEvent.VK_BACK_SPACE) {
                         txt.setText("");
-                    }                    
-                    
+                    }
+
                     if (e.getKeyChar() >= 'A' && e.getKeyChar() <= 'I') {
                         txt.setText(String.valueOf(e.getKeyChar()));
                     }
@@ -242,66 +247,78 @@ public class TableroSudoku extends JPanel {
         }
         return false;
     }
-    
-    public void limpiar(){
+
+    public void limpiar() {
         for (int i = 0; i < listaTxt.length; i++) {
             for (int j = 0; j < listaTxt[0].length; j++) {
                 boolean b = false;
-                
+
                 for (JTextField txt : listaTxtGenerados) {
-                    if(listaTxt[i][j]==txt){
-                        b=true;
+                    if (listaTxt[i][j] == txt) {
+                        b = true;
                         break;
                     }
                 }
-                
-                if(!b){
+
+                if (!b) {
                     listaTxt[i][j].setText("");
                 }
             }
         }
     }
-    
-    public void comprobar(){
-        char sudo[][] = new char [9][9];
+
+    public void comprobar() {
+        char sudo[][] = new char[9][9];
         for (int i = 0; i < listaTxt.length; i++) {
             for (int j = 0; j < listaTxt[0].length; j++) {
-                if(listaTxt[i][j].getText().isEmpty()){
+                if (listaTxt[i][j].getText().isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Sudoku Incompleto", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
-                } else{
-                    sudo[i][j]= listaTxt[i][j].getText().charAt(0);
+                } else {
+                    sudo[i][j] = listaTxt[i][j].getText().charAt(0);
                 }
             }
         }
         sudoku.setSudoku(sudo);
-        
-        if(sudoku.comprobarSudoku()){
-            JOptionPane.showMessageDialog(null, "Sudoku Solucionado", "Sudoku", JOptionPane.INFORMATION_MESSAGE);
-        } else{
+
+        if (sudoku.comprobarSudoku()) {
+            JOptionPane.showMessageDialog(null, "Ganaste Sudoku Solucionado", "Sudoku", JOptionPane.INFORMATION_MESSAGE);
+            // Cerrar la ventana y salir del programa
+            Window window = SwingUtilities.getWindowAncestor(listaTxt[0][0]);
+            if (window != null) {
+                window.dispose();
+            }
+            System.exit(0);
+        } else {
             JOptionPane.showMessageDialog(null, "No hay solución", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
-    public void resolver(){
+
+    public void resolver() {
         sudoku.limpiarSudoku();
         for (int i = 0; i < listaTxt.length; i++) {
             for (int j = 0; j < listaTxt[0].length; j++) {
-                for (JTextField txt: listaTxtGenerados) {
-                    if(txt==listaTxt[i][j]){
-                        sudoku.getSudoku()[i][j]= txt.getText().charAt(0);
+                for (JTextField txt : listaTxtGenerados) {
+                    if (txt == listaTxt[i][j]) {
+                        // Verifica si el texto no está vacío antes de acceder al carácter
+                        if (txt.getText().length() > 0) {
+                            sudoku.getSudoku()[i][j] = txt.getText().charAt(0);
+                        } else {
+                            // Asigna un carácter en blanco si el texto está vacío
+                            sudoku.getSudoku()[i][j] = ' ';
+                        }
                     }
                 }
             }
         }
-        
-        if(sudoku.resolverSudoku()){
+
+        if (sudoku.resolverSudoku()) {
             for (int i = 0; i < listaTxt.length; i++) {
                 for (int j = 0; j < listaTxt[0].length; j++) {
                     listaTxt[i][j].setText(String.valueOf(sudoku.getSudoku()[i][j]));
                 }
             }
-        } else{
+        } else {
             JOptionPane.showMessageDialog(null, "No hay solución", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
